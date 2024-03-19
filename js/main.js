@@ -1,26 +1,28 @@
 "use strict";
 
 let startBtn = document.getElementById("start"),
-  budgetValue = document.getElementsByClassName("budget-value")[0],
-  dayBudgetValue = document.getElementsByClassName("daybudget-value")[0],
-  levelValue = document.getElementsByClassName("level-value")[0],
-  expensesValue = document.getElementsByClassName("expenses-value")[0],
-  optionalExpensesValue = document.getElementsByClassName("optionalexpenses-value")[0],
-  incomeValue = document.getElementsByClassName("income-value")[0],
-  monthSavingsValue = document.getElementsByClassName("monthsavings-value")[0],
-  yearSavingsValue = document.getElementsByClassName("yearsavings-value")[0],
+
   moneyItem = document.querySelectorAll(".income-item"),
-  expensesItem = document.getElementsByClassName("expenses-item"),
-  optionalExpensesItem = document.querySelectorAll(".optionalexpenses-item"),
   incomeItem = document.querySelector(".choose-income"),
+  expensesItem = document.querySelectorAll(".expenses-item"),
+  optionalExpensesItem = document.querySelectorAll(".optionalexpenses-item"),
+
   checkSavings = document.querySelector("#savings"),
   sumValue = document.querySelector(".choose-sum"),
-  percentValue = document.querySelector(".choose-percent");
+  percentValue = document.querySelector(".choose-percent"),
+
+  budgetValue = document.querySelector(".budget-value"),
+  expensesValue = document.querySelector(".expenses-value"),
+  dayBudgetValue = document.querySelector(".daybudget-value"),
+  levelValue = document.querySelector(".level-value"),
+  incomeValue = document.querySelector(".income-value"),
+  optionalExpensesValue = document.querySelector(".optionalexpenses-value"),
+  monthSavingsValue = document.querySelector(".monthsavings-value"),
+  yearSavingsValue = document.querySelector(".yearsavings-value");
 
 startBtn.addEventListener("click", () => {
   
    // Постоянные доходы
-
   let sumMoney = 0;
   for (let i = 0; i < moneyItem.length; i++) {
     sumMoney += +moneyItem[i].value;
@@ -28,11 +30,9 @@ startBtn.addEventListener("click", () => {
   }
 
   // Возможный доход
-
   incomeValue.textContent = incomeItem.value;
 
   // Обязательные расходы
-
   let sumExpenses = 0;
   for (let i = 0; i < expensesItem.length; i++) {
     sumExpenses += +expensesItem[i].value;
@@ -40,7 +40,6 @@ startBtn.addEventListener("click", () => {
   }
 
   // Необязательные расходы
-
   let sumOpt = 0;
   for (let i = 0; i < optionalExpensesItem.length; i++) {
     sumOpt += +optionalExpensesItem[i].value;
@@ -48,14 +47,13 @@ startBtn.addEventListener("click", () => {
   }
 
   // Бюджет на день
-
   if (budgetValue.textContent != undefined) {
     dayBudgetValue.textContent = ((+budgetValue.textContent - +expensesValue.textContent) / 30).toFixed();
-    if (dayBudgetValue.textContent <= 100) {
+    if (dayBudgetValue.textContent <= 3000) {
       levelValue.textContent = "Минимальный уровень достатка";
-    } else if (dayBudgetValue.textContent > 100 && dayBudgetValue < 2000) {
+    } else if (dayBudgetValue.textContent > 3000 && dayBudgetValue.textContent < 10000) {
       levelValue.textContent = "Средний уровень достатка";
-    } else if (dayBudgetValue.textContent >= 2000) {
+    } else if (dayBudgetValue.textContent >= 10000) {
       levelValue.textContent = "Высокий уровень достатка";
     } else {
       levelValue.textContent = "Произошла ошибка";
@@ -66,10 +64,13 @@ startBtn.addEventListener("click", () => {
 });
 
 // Доход по вкладам
-
 checkSavings.addEventListener("click", () => {
   if (appData.savings == true) {
-    appData.savings = false;
+    appData = {}
+    monthSavingsValue.textContent = 0;
+    yearSavingsValue.textContent = 0;
+    sumValue.value = '';
+    percentValue.value = '';
   } else {
     appData.savings = true;
   }
